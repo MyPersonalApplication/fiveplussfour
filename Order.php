@@ -1,12 +1,26 @@
 <?php
-if (isset($_SESSION['us']) == false) {
-    echo "<script>alert('You need to login before accessing this page')</script>";
-    echo '<meta http-equiv="refresh" content = "0; URL=?page=login"/>';
-} else {
-    if (isset($_SESSION['admin']) && $_SESSION['admin'] == 1) {
-        echo "<script>alert('You are administrator that cant not access this page')</script>";
-        echo '<meta http-equiv="refresh" content = "0; URL=?page=shop"/>';
-    } else {
+include_once("connectDB.php");
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NDQ - Payment</title>
+    <?php
+    include_once("partial/library.php");
+    ?>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <?php
+        include_once("auth_user.php");
+        include_once("partial/header.php");
+        ?>
+        <?php
         if (isset($_POST["btnPayment"])) {
             $dlocal = $_POST['txtAddress'];
             $username = $_POST['txtUsername'];
@@ -71,7 +85,7 @@ if (isset($_SESSION['us']) == false) {
                 echo '<meta http-equiv="refresh" content = "0; URL=?page=shop"/>';
             }
         }
-?>
+        ?>
         <div class="cardorder border my-2 p-md-3">
             <div class="cardorder-top border-bottom text-center mb-4">
                 <span id="logo">NDQStore.com</span>
@@ -82,24 +96,35 @@ if (isset($_SESSION['us']) == false) {
                         <div class="left border">
                             <div class="header">Payment by Cash</div>
                             <div class="row mt-3">
-                                <div><span>Username:</span>
-                                    <input class="input" name="txtUsername" placeholder="Username" value="<?php echo $_SESSION['us'] ?>">
-                                </div>
-                                <div><span>Order's name:</span>
-                                    <input class="input" name="txtFullname" placeholder="Full name" value="<?php echo $_SESSION['cname'] ?>">
-                                </div>
-                                <div><span>Phone Number:</span>
-                                    <input class="input" name="txtPhonenumber" placeholder="Phone Number" value="<?php echo $_SESSION['phone'] ?>">
-                                </div>
-                                <div class="col-12"><span>Order date:</span>
-                                    <input class="input" name="txtOderdate" placeholder="yy-mm-dd" value="<?php echo date('Y-m-d') ?>">
-                                </div>
-                                <!-- <div class="col-6"><span>Delivery date</span>
-                                    <input class="input" name="txtDeliverydate" placeholder="yy-mm-dd" value="<?php echo date('Y-m-d') ?>">
-                                </div> -->
-                                <div><span>Address:</span>
-                                    <input class="input" name="txtAddress" placeholder="Address" value="<?php echo $_SESSION['address'] ?>">
-                                </div>
+                                <?php
+                                $username = $_COOKIE['username'];
+                                $sqlFindUser = "SELECT * FROM `customer` WHERE Username = '$username'";
+                                $res = mysqli_query($conn, $sqlFindUser);
+
+                                if (mysqli_num_rows($res) > 0) {
+                                    while ($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
+                                ?>
+                                        <div><span>Username:</span>
+                                            <input class="input" name="txtUsername" placeholder="Username" value="<?= $row['Username'] ?>">
+                                        </div>
+                                        <div><span>Order's name:</span>
+                                            <input class="input" name="txtFullname" placeholder="Full name" value="<?= $row['CustName'] ?>">
+                                        </div>
+                                        <div><span>Phone Number:</span>
+                                            <input class="input" name="txtPhonenumber" placeholder="Phone Number" value="<?= $row['CustPhone'] ?>">
+                                        </div>
+                                        <div class="col-12"><span>Order date:</span>
+                                            <input class="input" name="txtOderdate" placeholder="yy-mm-dd" value="<?php echo date('Y-m-d') ?>">
+                                        </div>
+                                        <div><span>Address:</span>
+                                            <input class="input" name="txtAddress" placeholder="Address" value="<?= $row['CustAddress'] ?>">
+                                        </div>
+                                <?php
+                                    }
+                                } else {
+                                    echo '<meta http-equiv="refresh" content = "0; URL=cart.php"/>';
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -113,18 +138,18 @@ if (isset($_SESSION['us']) == false) {
                         $price = $_POST['price'];
                     ?>
                         <div class="col-md-6">
-                            <input type="hidden" name="proid" value="<?php echo $proid ?>">
-                            <input type="hidden" name="quantity" value="<?php echo $quantity ?>">
-                            <input type="hidden" name="price" value="<?php echo $price ?>">
+                            <input type="hidden" name="proid" value="<?= $proid ?>">
+                            <input type="hidden" name="quantity" value="<?= $quantity ?>">
+                            <input type="hidden" name="price" value="<?= $price ?>">
                             <div class="right border">
                                 <div class="header">Order Summary</div>
                                 <hr>
                                 <div class="row item">
-                                    <div class="col-4 align-self-center"><img class="img-fluid" src="Product/<?php echo $image ?>"></div>
+                                    <div class="col-4 align-self-center"><img class="img-fluid" src="Product/<?= $image ?>" width="50%"></div>
                                     <div class="col-8">
-                                        <b>$ <?php echo $price ?></b>
-                                        <div class="row text-muted"><?php echo $name ?></div>
-                                        <div class="row">Qty: <?php echo $quantity ?></div>
+                                        <b>$ <?= $price ?></b>
+                                        <div class="row text-muted"><?= $name ?></div>
+                                        <div class="row">Qty: <?= $quantity ?></div>
                                     </div>
                                 </div>
                                 <hr>
@@ -134,7 +159,7 @@ if (isset($_SESSION['us']) == false) {
                                 </div>
                                 <div class="row lower">
                                     <div class="col text-left">Subtotal</div>
-                                    <div class="col text-right">$ <?php echo ($price * $quantity) ?></div>
+                                    <div class="col text-right">$ <?= ($price * $quantity) ?></div>
                                 </div>
                                 <div class="row lower">
                                     <div class="col text-left">Delivery</div>
@@ -142,7 +167,7 @@ if (isset($_SESSION['us']) == false) {
                                 </div>
                                 <div class="row lower">
                                     <div class="col text-left"><b>Total to pay</b></div>
-                                    <div class="col text-right"><b>$ <?php echo ($price * $quantity) ?></b></div>
+                                    <div class="col text-right"><b>$ <?= ($price * $quantity) ?></b></div>
                                 </div>
                                 <input type="submit" class="btn btn-primary btnorder my-3" name="btnPaymentnow" id="btnPaymentnow" value="Payment" />
                                 <input type="button" class="btn btn-light btn-block" style="font-size: 0.7rem;" name="btnCancel" id="btnCancel" value="Cancel" onclick="window.location='?page=viewdetail&id=<?php echo $proid ?>'" />
@@ -157,23 +182,29 @@ if (isset($_SESSION['us']) == false) {
                                 <div class="header">Order Summary</div>
                                 <hr>
                                 <?php
-                                if (isset($_SESSION['cart_item'])) {
+                                $username = $_COOKIE['username'];
+                                $sql = "SELECT * FROM `cart` c JOIN `customer` cus ON c.Username = cus.Username
+                                        JOIN `product` p ON c.ProID = p.ProID WHERE c.Username = '$username'";
+                                $result = mysqli_query($conn, $sql);
+
+                                if (mysqli_num_rows($result) > 0) {
                                     $all = 0;
                                     $item = 0;
-                                    for ($item; $item < sizeof($_SESSION['cart_item']); $item++) {
-                                        $total = $_SESSION['cart_item'][$item][4] * $_SESSION['cart_item'][$item][5];
+                                    while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                                        $total = $row['ProPrice'] * $row['Count'];
                                         $all += $total;
                                 ?>
                                         <div class="row item">
-                                            <div class="col-4 align-self-center"><img class="img-fluid" src="Product/<?php echo $_SESSION['cart_item'][$item][3] ?>"></div>
+                                            <div class="col-4 align-self-center"><img class="img-fluid" src="Product/<?= $row['Pro_image'] ?>" width="50%"></div>
                                             <div class="col-8">
-                                                <b>$ <?php echo $_SESSION['cart_item'][$item][5] ?></b>
-                                                <div class="row text-muted"><?php echo $_SESSION['cart_item'][$item][1] ?></div>
-                                                <div class="row">Qty: <?php echo $_SESSION['cart_item'][$item][4] ?></div>
+                                                <b>$ <?= $row['ProPrice'] ?></b>
+                                                <div class="row text-muted"><?= $row['ProName'] ?></div>
+                                                <div class="row">Qty: <?= $row['Count'] ?></div>
                                             </div>
                                         </div>
                                         <hr>
                                     <?php
+                                        $item++;
                                     }
                                     ?>
                                     <div class="row lower">
@@ -193,6 +224,8 @@ if (isset($_SESSION['us']) == false) {
                                         <div class="col text-right"><b>$ <?php echo $all ?></b></div>
                                     </div>
                                 <?php
+                                } else {
+                                    echo '<meta http-equiv="refresh" content = "0; URL=cart.php"/>';
                                 }
                                 ?>
                                 <input type="submit" class="btn btn-primary btnorder my-3" name="btnPayment" id="btnPayment" value="Payment" />
@@ -205,7 +238,13 @@ if (isset($_SESSION['us']) == false) {
                 </div>
             </form>
         </div>
-<?php
-    }
-}
-?>
+        <?php
+        include_once("partial/footer.php");
+        ?>
+    </div>
+    <?php
+    include_once("partial/script.php");
+    ?>
+</body>
+
+</html>
