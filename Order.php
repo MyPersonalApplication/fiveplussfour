@@ -8,7 +8,7 @@ include_once("connectDB.php");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NDQ - Payment</title>
+    <title>FPF - Payment</title>
     <?php
     include_once("partial/library.php");
     ?>
@@ -24,71 +24,101 @@ include_once("connectDB.php");
         if (isset($_POST["btnPayment"])) {
             $dlocal = $_POST['txtAddress'];
             $username = $_POST['txtUsername'];
+            $custName = $_POST['txtFullname'];
+            $custPhone = $_POST['txtPhonenumber'];
+            $total = $_POST['txtTotal'];
 
-            $sq = "INSERT INTO orders (Orderdate, Deliverydate, Deliverylocal, Paymentmethod, Username) 
-                VALUES ('" . date('Y-m-d H:i:s') . "', '" . date('Y-m-d H:i:s') . "', '$dlocal', 'Cash', '$username')";
+            // Add to order table
+            $sql = "INSERT INTO orders (Orderdate, Deliverydate, Deliverylocal, CustName, CustPhone, Total, Status, Username) 
+                VALUES ('" . date('Y-m-d H:i:s') . "', '" . date('Y-m-d H:i:s') . "', '$dlocal', '$custName', '$custPhone', '$total', '0', '$username')";
 
-            $res = mysqli_query($conn, $sq);
+            mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
-            if (!$res) {
-                die('Invalid query: ' . mysqli_error($conn));
-            } else {
-                $last_id = mysqli_insert_id($conn);
-                for ($item = 0; $item < sizeof($_SESSION['cart_item']); $item++) {
-                    $proid = $_SESSION['cart_item'][$item][0];
-                    $proqty = $_SESSION['cart_item'][$item][4];
-                    $proprice = $_SESSION['cart_item'][$item][5];
-                    $allprice = $proqty * $proprice;
+            // Get last id inserted
+            $last_id = mysqli_insert_id($conn);
+            $sqlOrderDetail = "SELECT cart_id, Username, Count, ProID FROM `cart` WHERE username = '$username'";
+            $resOrderDetail = mysqli_query($conn, $sqlOrderDetail);
 
-                    $sq = "INSERT INTO orderdetail (OrderID, ProID, Qty, TotalPrice) VALUES ('$last_id', '$proid', '$proqty', '$allprice')";
+            if (mysqli_num_rows($resOrderDetail) > 0) {
+                while ($row = mysqli_fetch_array($resOrderDetail, MYSQLI_ASSOC)) {
+                    $proid = $row['ProID'];
+                    $proqty = $row['Count'];
+                    // // Add to order detail table
+                    $sql = "INSERT INTO orderdetail (OrderID, ProID, Qty) VALUES ('$last_id', '$proid', '$proqty')";
+                    $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
-                    $result = mysqli_query($conn, $sq) or die(mysqli_error($conn));
-                    $res = mysqli_query($conn, "SELECT Pro_qty FROM product WHERE ProID = '$proid'");
-                    $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
+                    $sqlUpdateQty = "SELECT Pro_qty FROM product WHERE ProID = '$proid'";
+                    $resUpdateQty = mysqli_query($conn, $sqlUpdateQty) or die(mysqli_error($conn));
+                    $row = mysqli_fetch_array($resUpdateQty, MYSQLI_ASSOC);
                     $updateqty = $row['Pro_qty'] - $proqty;
-                    mysqli_query($conn, "UPDATE product SET Pro_qty = '$updateqty' WHERE ProID = '$proid'");
+                    mysqli_query($conn, "UPDATE product SET Pro_qty = '$updateqty' WHERE ProID = '$proid'") or die(mysqli_error($conn));
                 }
-                echo '<meta http-equiv="refresh" content = "0; URL=?page=cart"/>';
-                echo "<script>alert('Payment successfully')</script>";
-                unset($_SESSION['cart_item']);
+                $sqlDeleteCart = "DELETE FROM `cart` WHERE username = '$username'";
+                mysqli_query($conn, $sqlDeleteCart) or die(mysqli_error($conn));
+
+                echo ("<script>
+                            Swal.fire(
+                                'Completely Payment',
+                                'You have successfully paid',
+                                'success'
+                            ).then((result) => {
+                                window.location.href = 'cart.php';
+                            })
+                        </script>");
+            } else {
+                echo ("<script>
+                            Swal.fire(
+                                'ERROR',
+                                'Something went wrong!!!',
+                                'error'
+                            ).then((result) => {
+                                window.location.href = 'order.php';
+                            })
+                        </script>");
             }
         }
         if (isset($_POST["btnPaymentnow"])) {
             $dlocal = $_POST['txtAddress'];
             $username = $_POST['txtUsername'];
+            $custName = $_POST['txtFullname'];
+            $custPhone = $_POST['txtPhonenumber'];
+            $total = $_POST['txtTotal'];
 
-            $sq = "INSERT INTO orders (Orderdate, Deliverydate, Deliverylocal, Paymentmethod, Username) 
-                VALUES ('" . date('Y-m-d H:i:s') . "', '" . date('Y-m-d H:i:s') . "', '$dlocal', 'Cash', '$username')";
+            // Add to order table
+            $sql = "INSERT INTO orders (Orderdate, Deliverydate, Deliverylocal, CustName, CustPhone, Total, Status, Username) 
+                VALUES ('" . date('Y-m-d H:i:s') . "', '" . date('Y-m-d H:i:s') . "', '$dlocal', '$custName', '$custPhone', '$total', '0', '$username')";
 
-            $res = mysqli_query($conn, $sq);
+            mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
-            if (!$res) {
-                die('Invalid query: ' . mysqli_error($conn));
-            } else {
-                $last_id = mysqli_insert_id($conn);
+            // Get last id inserted
+            $last_id = mysqli_insert_id($conn);
 
-                $proid = $_POST['proid'];
-                $quantity = $_POST['quantity'];
-                $price = $_POST['price'];
-                $allprice = $quantity * $price;
+            $proid = $_POST['proid'];
+            $quantity = $_POST['quantity'];
 
-                $sq = "INSERT INTO orderdetail (OrderID, ProID, Qty, TotalPrice) VALUES ('$last_id', '$proid', '$quantity', '$allprice')";
+            $sq = "INSERT INTO orderdetail (OrderID, ProID, Qty) VALUES ('$last_id', '$proid', '$quantity')";
 
-                $result = mysqli_query($conn, $sq) or die(mysqli_error($conn));
+            $result = mysqli_query($conn, $sq) or die(mysqli_error($conn));
 
-                $res = mysqli_query($conn, "SELECT Pro_qty FROM product WHERE ProID = '$proid'");
-                $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
-                $updateqty = $row['Pro_qty'] - $quantity;
-                mysqli_query($conn, "UPDATE product SET Pro_qty = '$updateqty' WHERE ProID = '$proid'");
+            $res = mysqli_query($conn, "SELECT Pro_qty FROM product WHERE ProID = '$proid'");
+            $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
+            $updateqty = $row['Pro_qty'] - $quantity;
+            mysqli_query($conn, "UPDATE product SET Pro_qty = '$updateqty' WHERE ProID = '$proid'");
 
-                echo "<script>alert('Payment successfully')</script>";
-                echo '<meta http-equiv="refresh" content = "0; URL=?page=shop"/>';
-            }
+            echo ("<script>
+                            Swal.fire(
+                                'Completely Payment',
+                                'You have successfully paid',
+                                'success'
+                            ).then((result) => {
+                                window.location.href = 'cart.php';
+                            })
+                        </script>");
         }
         ?>
         <div class="cardorder border my-2 p-md-3">
             <div class="cardorder-top border-bottom text-center mb-4">
-                <span id="logo">NDQStore.com</span>
+                <span id="logo">FPFStore.com</span>
             </div>
             <form action="" method="POST" class="cardorder-body">
                 <div class="row">
@@ -131,16 +161,19 @@ include_once("connectDB.php");
                     <?php
                     if (isset($_POST['btnBuynow'])) {
                         $proid = $_POST['proid'];
-                        $name = $_POST['proname'];
-                        $short = $_POST['shortdesc'];
-                        $image = $_POST['image'];
                         $quantity = $_POST['quantity'];
-                        $price = $_POST['price'];
+
+                        $sql = "SELECT * FROM `product` WHERE ProID = '$proid'";
+                        $res = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+                        $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
+                        $name = $row['ProName'];
+                        $short = $row['SmallDesc'];
+                        $image = $row['Pro_image'];
+                        $price = $row['ProPrice'];
                     ?>
                         <div class="col-md-6">
                             <input type="hidden" name="proid" value="<?= $proid ?>">
                             <input type="hidden" name="quantity" value="<?= $quantity ?>">
-                            <input type="hidden" name="price" value="<?= $price ?>">
                             <div class="right border">
                                 <div class="header">Order Summary</div>
                                 <hr>
@@ -154,7 +187,7 @@ include_once("connectDB.php");
                                 </div>
                                 <hr>
                                 <div class="row lower">
-                                    <div class="col text-left">item</div>
+                                    <div class="col text-left">Item</div>
                                     <div class="col text-right">1</div>
                                 </div>
                                 <div class="row lower">
@@ -167,6 +200,7 @@ include_once("connectDB.php");
                                 </div>
                                 <div class="row lower">
                                     <div class="col text-left"><b>Total to pay</b></div>
+                                    <input type="hidden" name="txtTotal" value="<?= ($price * $quantity) ?>">
                                     <div class="col text-right"><b>$ <?= ($price * $quantity) ?></b></div>
                                 </div>
                                 <input type="submit" class="btn btn-primary btnorder my-3" name="btnPaymentnow" id="btnPaymentnow" value="Payment" />
@@ -208,7 +242,7 @@ include_once("connectDB.php");
                                     }
                                     ?>
                                     <div class="row lower">
-                                        <div class="col text-left">item</div>
+                                        <div class="col text-left">Item</div>
                                         <div class="col text-right"><?php echo $item ?></div>
                                     </div>
                                     <div class="row lower">
@@ -221,6 +255,7 @@ include_once("connectDB.php");
                                     </div>
                                     <div class="row lower">
                                         <div class="col text-left"><b>Total to pay</b></div>
+                                        <input type="hidden" name="txtTotal" value="<?php echo $all ?>">
                                         <div class="col text-right"><b>$ <?php echo $all ?></b></div>
                                     </div>
                                 <?php

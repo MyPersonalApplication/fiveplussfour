@@ -31,10 +31,10 @@
                 <div class="mx-5 text-center">
                     <!-- Content -->
                     <h6 class="text-uppercase fw-bold mb-4">
-                        <i class="bi bi-gem me-2"></i>NDQ STORE
+                        <i class="bi bi-gem me-2"></i>FPF STORE
                     </h6>
                     <p>
-                        NDQ Store was founded in 2022. Our store offers a
+                        FPF Store was founded in 2022. Our store offers a
                         huge collection of unisex. What are you waiting for?
                         Start shopping online today.
                     </p>
@@ -47,8 +47,9 @@
                     <h6 class="text-uppercase fw-bold mb-4">Brands</h6>
                     <?php
                     $result = mysqli_query($conn, "SELECT c.CatID, c.CatName , COUNT(c.CatID), SUM(Qty)
-                                              FROM orderdetail o, product p, category c
-                                              WHERE o.ProID = p.ProID AND p.CatID = c.CatID
+                                              FROM orderdetail o RIGHT JOIN product p
+                                              ON o.ProID = p.ProID INNER JOIN category c
+                                              ON p.CatID = c.CatID
                                               GROUP BY c.CatID
                                               ORDER BY SUM(Qty)
                                               DESC
@@ -89,6 +90,6 @@
 
     <!-- Copyright -->
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05)">© 2022 Copyright:
-        <a class="text-reset fw-bold" href="index.php">NDQStore.com</a>
+        <a class="text-reset fw-bold" href="index.php">FPFStore.com</a>
     </div>
 </footer>

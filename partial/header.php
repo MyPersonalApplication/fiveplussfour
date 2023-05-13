@@ -1,7 +1,7 @@
 <header class="d-flex flex-wrap justify-content-between py-4" style="background-color: #E0E0E0;">
     <div class="col-12 col-md-3">
         <div class="d-flex justify-content-center">
-            <img title="NDQStore" onclick="location.href='index.php'" src="Image/NDQlogo.png" height="40" width="40" class="me-2" style="border-radius: 5px" role="button" />
+            <img title="FPFStore" onclick="location.href='index.php'" src="Image/NDQlogo.png" height="40" width="40" class="me-2" style="border-radius: 5px" role="button" />
             <form class="d-flex input-group w-auto" method="POST" action="?page=shop">
                 <input name="txtSearch" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                 <button class="btn btn-primary searching" type="submit" name="btnSearch">
@@ -40,27 +40,9 @@
                         <li>
                             <a class="dropdown-item" href="profile.php">Profile</a>
                         </li>
-                        <?php
-                        if ($_COOKIE['admin']) {
-                        ?>
-                            <li>
-                                <a class="dropdown-item" href="?page=category_management">Manage Category</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="?page=product_management">Manage Product</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="?page=order_management">Manage Order</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="?page=feedback_management">Manage Feedback</a>
-                            </li>
-                        <?php
-                        }
-                        ?>
                         <div class="dropdown-divider"></div>
                         <li>
-                            <a class="dropdown-item" href="logout.php">Log out</a>
+                            <a class="dropdown-item" href="logout.php" onclick="return confirm('Are you sure to logout?')">Log out</a>
                         </li>
                     </ul>
                 </div>

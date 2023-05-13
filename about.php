@@ -9,7 +9,7 @@ session_start();
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NDQ - About Us</title>
+  <title>FPF - About Us</title>
   <?php
   include_once("partial/library.php");
   ?>
@@ -29,7 +29,7 @@ session_start();
                 <div class="m-2 m-md-5 text-center">
                   <div class="m-md-5 m-5">
                     <h3>
-                      ABOUT NDQ STORE
+                      ABOUT FPF STORE
                     </h3>
                   </div>
                   <div class="m-5">
@@ -39,7 +39,7 @@ session_start();
                   </div>
                   <div class="my-5">
                     <div class="">
-                      NDQ Store was founded by a group of like-minded fashion devotees, determined to deliver style to shoppers worldwide.
+                      FPF Store was founded by a group of like-minded fashion devotees, determined to deliver style to shoppers worldwide.
                       Our store offers a huge collection of goods at affordable prices, and our payment and shipping options are simply unmatched.
                       What are you waiting for? Start shopping online today and find out more about what makes us so special.
                     </div>

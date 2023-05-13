@@ -8,7 +8,7 @@ include_once("connectDB.php");
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>FPF - Shop</title>
   <?php
   include_once("partial/library.php");
   ?>
@@ -41,7 +41,7 @@ include_once("connectDB.php");
 
           <!-- Brand -->
           <a class="text-decoration-none text-black ps-3" href="index.php">
-            <h3>NDQ STORE</h3>
+            <h3>FPF STORE</h3>
           </a>
         </nav>
         <!-- Navbar -->

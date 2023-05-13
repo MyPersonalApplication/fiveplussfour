@@ -8,7 +8,7 @@ include_once("connectDB.php");
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NDQ - Login</title>
+  <title>FPF - Login</title>
   <?php
   include_once("partial/library.php");
   ?>
@@ -39,7 +39,11 @@ include_once("connectDB.php");
           setcookie('username', $row["Username"], time() + (7 * 24 * 60 * 60), '/');
           setcookie('admin', $row["State"], time() + (7 * 24 * 60 * 60), '/');
 
-          echo '<meta http-equiv="refresh" content = "0; URL=index.php"/>';
+          if ($row['State']) {
+            echo '<meta http-equiv="refresh" content = "0; URL=manage/order/index.php"/>';
+          } else {
+            echo '<meta http-equiv="refresh" content = "0; URL=index.php"/>';
+          }
         } else {
           $errLogin = "Password is not correct";
         }

@@ -9,6 +9,4 @@ if (!isset($_COOKIE['username'])) {
                     window.location.href = 'login.php';
                   })
             </script>");
-    // header("Location: login.php");
-    // exit();
 }
