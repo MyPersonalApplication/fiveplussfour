@@ -37,28 +37,38 @@ include_once("connectDB.php");
 
                 <tbody>
                     <?php
+                    $username = $_COOKIE['username'];
                     $No = 1;
                     $sq = "SELECT OrderID, Orderdate, Deliverydate, Deliverylocal, CustName, CustPhone
                                 FROM orders o
+                                WHERE Username = '$username'
                                 ORDER BY Orderdate DESC";
                     $res = mysqli_query($conn, $sq);
                     if (!$res) {
                         die('Invalid query: ' . mysqli_error($conn));
                     }
-                    while ($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
+                    if (mysqli_num_rows($res) > 0) {
+                        while ($row = mysqli_fetch_array($res, MYSQLI_ASSOC)) {
                     ?>
+                            <tr>
+                                <td class="text-center">
+                                    <a href="purchase-detail.php?id=<?= $row['OrderID'] ?>" class="text-decoration-none"><?= $No ?></a>
+                                </td>
+                                <td class="text-center"><?= $row["Orderdate"]; ?></td>
+                                <!-- <td class="text-center"><?= $row["Deliverydate"]; ?></td> -->
+                                <td><?= $row["Deliverylocal"]; ?></td>
+                                <td><?= $row["CustName"]; ?></td>
+                                <td class="text-center"><?= $row["CustPhone"]; ?></td>
+                            </tr>
+                        <?php
+                            $No++;
+                        }
+                    } else {
+                        ?>
                         <tr>
-                            <td class="text-center">
-                                <a href="purchase-detail.php?id=<?= $row['OrderID'] ?>" class="text-decoration-none"><?= $No ?></a>
-                            </td>
-                            <td class="text-center"><?= $row["Orderdate"]; ?></td>
-                            <!-- <td class="text-center"><?= $row["Deliverydate"]; ?></td> -->
-                            <td><?= $row["Deliverylocal"]; ?></td>
-                            <td><?= $row["CustName"]; ?></td>
-                            <td class="text-center"><?= $row["CustPhone"]; ?></td>
+                            <td colspan="5" class="text-center fw-bold">Do not purchase history</td>
                         </tr>
                     <?php
-                        $No++;
                     }
                     ?>
                 </tbody>
