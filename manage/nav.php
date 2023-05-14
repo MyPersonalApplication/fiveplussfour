@@ -20,7 +20,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebarMenu"><span class="navbar-toggler-icon"></span></button>
 
         <!-- Brand -->
-        <a class="font-family nav-link px-0" href="/manage">
+        <a class="font-family nav-link px-0" href="../../manage/order/index.php">
             <h3 class="fw-bold">Administration</h3>
         </a>
     </nav>

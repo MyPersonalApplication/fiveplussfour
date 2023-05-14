@@ -65,7 +65,6 @@ include_once("connectDB.php");
                                             <input type="number" name="quantity" value="1" min="1" max="<?= $qty ?>">
                                             <input type="submit" name="addcart" class="btn btn-dark mx-md-2 my-2 my-md-0 col-md-3" value="Add to cart">
                                             <input type="submit" name="btnBuynow" formaction="order.php" class="btn btn-primary btn-rounded me-md-2 my-md-0 mb-2 col-md-3" value="Buy Now">
-                                            <!-- <input type="submit" name="btnFeedback" formaction="feedback.php?id=<?= $id ?>" class="btn btn-warning btn-rounded col-md-3" value="Feedback"> -->
                                         </div>
                                     </form>
                                 <?php

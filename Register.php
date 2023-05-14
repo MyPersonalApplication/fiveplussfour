@@ -233,7 +233,7 @@ include_once("connectDB.php");
 
       // Username
       if (f.txtUsername.value == "" || format.test(f.txtUsername.value) || hasWhiteSpace(f.txtUsername.value)) {
-        errorUsername.innerHTML = "Username can't be empty and special character, please enter again"
+        errorUsername.innerHTML = "Username can't be empty and special character"
         f.txtUsername.focus();
         return false;
       } else {
@@ -241,11 +241,11 @@ include_once("connectDB.php");
       }
       // Password
       if (f.txtPassword.value == "") {
-        errorPassword.innerHTML = "Password can't be empty, please enter again"
+        errorPassword.innerHTML = "Password can't be empty"
         f.txtPassword.focus();
         return false;
       } else if (f.txtPassword.value.length <= 5) {
-        errorPassword.innerHTML = "Password must be greater than 5 chars, please enter again"
+        errorPassword.innerHTML = "Password must be greater than 5 chars"
         f.txtPassword.focus();
         return false;
       } else {
@@ -253,11 +253,11 @@ include_once("connectDB.php");
       }
       // Confirm Pass
       if (f.txtConfirmPass.value == "") {
-        errorConfirmPassword.innerHTML = "Confirm Password can't be empty, please enter again"
+        errorConfirmPassword.innerHTML = "Confirm Password can't be empty"
         f.txtConfirmPass.focus();
         return false;
       } else if (f.txtPassword.value != f.txtConfirmPass.value) {
-        errorConfirmPassword.innerHTML = "Password and Confirm Pass do not match, please enter again"
+        errorConfirmPassword.innerHTML = "Password and Confirm Pass do not match"
         f.txtConfirmPass.focus();
         return false;
       } else {
@@ -265,7 +265,7 @@ include_once("connectDB.php");
       }
       // First name
       if (f.txtFirstname.value == "" || format.test(f.txtFirstname.value) || validname.test(f.txtFirstname.value) == false) {
-        errorFirstname.innerHTML = "Invalid first name. Please enter again"
+        errorFirstname.innerHTML = "Invalid first name"
         f.txtFirstname.focus();
         return false;
       } else {
@@ -273,7 +273,7 @@ include_once("connectDB.php");
       }
       // Last name
       if (f.txtLastname.value == "" || format.test(f.txtLastname.value) || validname.test(f.txtLastname.value) == false) {
-        errorLastname.innerHTML = "Invalid last name. Please enter again"
+        errorLastname.innerHTML = "Invalid last name"
         f.txtLastname.focus();
         return false;
       } else {
@@ -288,14 +288,14 @@ include_once("connectDB.php");
       }
       // Birthday
       if (f.slYear.value == 0 || f.slMonth.value == 0 || f.slDay.value == 0) {
-        errorBirthday.innerHTML = "Invalid Birthday, please enter again"
+        errorBirthday.innerHTML = "Invalid Birthday"
         return false;
       } else {
         errorBirthday.innerHTML = ""
       }
       // Telephone
       if (phone_pattern.test(f.txtTelephone.value) == false) {
-        errorTelephone.innerHTML = "Invalid phone number, please enter again"
+        errorTelephone.innerHTML = "Invalid phone number"
         f.txtTelephone.focus();
         return false;
       } else {
@@ -303,13 +303,13 @@ include_once("connectDB.php");
       }
       // Email
       if (email_pattern.test(f.txtEmail.value) == false) {
-        errorEmail.innerHTML = "Invalid email address, please enter again"
+        errorEmail.innerHTML = "Invalid email address"
         f.txtEmail.focus();
         return false;
       }
       // Address
       if (f.txtAddress.value == "") {
-        errorAddress.innerHTML = "Address can't be empty, please enter again"
+        errorAddress.innerHTML = "Address can't be empty"
         f.txtAddress.focus();
         return false;
       } else {

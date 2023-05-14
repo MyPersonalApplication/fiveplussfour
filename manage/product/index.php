@@ -23,23 +23,24 @@ include_once("../../connectDB.php");
             include_once("../nav.php");
             ?>
             <?php
-            if (isset($_GET["function"]) == "del") {
-                if (isset($_GET["id"])) {
-                    $id = $_GET["id"];
-                    $sq = "SELECT Pro_image FROM product WHERE ProID = '$id'";
-                    $res = mysqli_query($conn, $sq);
+            if (isset($_GET["function"]) == "del" && isset($_GET["id"])) {
+                $id = $_GET["id"];
+                $sq = "SELECT Pro_image FROM product WHERE ProID = '$id'";
+                $res = mysqli_query($conn, $sq);
+                if (mysqli_num_rows($res) == 1) {
                     $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
                     $filePic = $row['Pro_image'];
-                    unlink("Product/" . $filePic);
+                    unlink("../../Product/" . $filePic);
                     mysqli_query($conn, "DELETE FROM product WHERE ProID = '$id'");
                 }
+                echo '<meta http-equiv="refresh" content = "0; URL=./"/>';
             }
             ?>
             <div class="col-lg-10 col-md-9 col-12">
                 <form name="frm" method="post" action="" class="mt-3">
                     <h1 class="text-center">Manage Product</h1>
                     <div class="text-center mb-2">
-                        <a href="?page=add_product" class="btn btn-outline-primary">
+                        <a href="add.php" class="btn btn-outline-primary">
                             <img src="../../Image/add.png" alt="Add new" width="16" height="16" border="0" /> Add new
                         </a>
                     </div>
@@ -78,12 +79,12 @@ include_once("../../connectDB.php");
                                         <img src='../../Product/<?php echo $row["Pro_image"] ?>' border='0' width="50" height="50" />
                                     </td>
                                     <td class="text-center">
-                                        <a href="?page=update_product&&id=<?php echo $row['ProID'] ?>">
+                                        <a href="update.php?id=<?php echo $row['ProID'] ?>">
                                             <i class="bi bi-pen-fill" style="color: black;"></i>
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        <a href="?page=product_management&&function=del&&id=<?php echo $row["ProID"] ?>" onclick="return deleteConfirm()">
+                                        <a href="?function=del&&id=<?php echo $row["ProID"] ?>" onclick="return deleteConfirm()">
                                             <i class="bi bi-trash-fill" style="color: red;"></i>
                                         </a>
                                     </td>

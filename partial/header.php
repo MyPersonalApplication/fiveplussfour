@@ -1,7 +1,7 @@
 <header class="d-flex flex-wrap justify-content-between py-4" style="background-color: #E0E0E0;">
     <div class="col-12 col-md-3">
         <div class="d-flex justify-content-center">
-            <img title="FPFStore" onclick="location.href='index.php'" src="Image/NDQlogo.png" height="40" width="40" class="me-2" style="border-radius: 5px" role="button" />
+            <img title="FPFStore" onclick="location.href='index.php'" src="Image/FPFlogo.png" height="40" width="40" class="me-2" style="border-radius: 5px" role="button" />
             <form class="d-flex input-group w-auto" method="POST" action="?page=shop">
                 <input name="txtSearch" type="search" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                 <button class="btn btn-primary searching" type="submit" name="btnSearch">
@@ -39,6 +39,9 @@
                         </li>
                         <li>
                             <a class="dropdown-item" href="profile.php">Profile</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="purchase-history.php">Purchase History</a>
                         </li>
                         <div class="dropdown-divider"></div>
                         <li>

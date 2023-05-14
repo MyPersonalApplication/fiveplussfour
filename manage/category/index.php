@@ -23,17 +23,18 @@ include_once("../../connectDB.php");
             include_once("../nav.php");
             ?>
             <?php
-            if (isset($_GET["function"]) == "del") {
-                if (isset($_GET["id"])) {
-                    $id = $_GET["id"];
-                    $sq = "SELECT Cat_image FROM category WHERE CatID = '$id'";
-                    $res = mysqli_query($conn, $sq);
+            if (isset($_GET["function"]) == "del" && isset($_GET["id"])) {
+                $id = $_GET["id"];
+                $sq = "SELECT Cat_image FROM category WHERE CatID = '$id'";
+                $res = mysqli_query($conn, $sq);
+                if (mysqli_num_rows($res) == 1) {
                     $row = mysqli_fetch_array($res, MYSQLI_ASSOC);
                     $filePic = $row['Cat_image'];
                     unlink("../../Category/" . $filePic);
                     mysqli_query($conn, "DELETE FROM product WHERE CatID = '$id'");
                     mysqli_query($conn, "DELETE FROM category WHERE CatID = '$id'");
                 }
+                echo '<meta http-equiv="refresh" content = "0; URL=./"/>';
             }
             ?>
             <div class="col-lg-10 col-md-9 col-12">
@@ -70,12 +71,12 @@ include_once("../../connectDB.php");
                                         <img src='../../Category/<?php echo $row["Cat_image"] ?>' border='0' width="100" height="50" />
                                     </td>
                                     <td style='text-align:center'>
-                                        <a href="?page=update_category&&id=<?php echo $row["CatID"]; ?>">
+                                        <a href="update.php?id=<?php echo $row["CatID"]; ?>">
                                             <i class="bi bi-pen-fill" style="color: black;"></i>
                                         </a>
                                     </td>
                                     <td style='text-align:center'>
-                                        <a href="?page=category_management&&function=del&&id=<?php echo $row["CatID"] ?>" onclick="return deleteConfirm()">
+                                        <a href="?function=del&id=<?php echo $row["CatID"] ?>" onclick="return deleteConfirm()">
                                             <i class="bi bi-trash-fill" style="color: red;"></i>
                                         </a>
                                     </td>

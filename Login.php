@@ -36,8 +36,8 @@ include_once("connectDB.php");
         $passwordHash = $row['Password'];
 
         if (password_verify($password, $passwordHash)) {
-          setcookie('username', $row["Username"], time() + (7 * 24 * 60 * 60), '/');
-          setcookie('admin', $row["State"], time() + (7 * 24 * 60 * 60), '/');
+          setcookie('username', $row["Username"], time() + (24 * 60 * 60), '/');
+          setcookie('admin', $row["State"], time() + (24 * 60 * 60), '/');
 
           if ($row['State']) {
             echo '<meta http-equiv="refresh" content = "0; URL=manage/order/index.php"/>';
@@ -112,7 +112,7 @@ include_once("connectDB.php");
       const errorPassword = document.getElementById('errorPassword')
 
       if (f.txtUsername.value == "") {
-        errorUsername.innerHTML = "Username can't be empty, please enter again"
+        errorUsername.innerHTML = "Username can't be empty"
         f.txtUsername.focus();
         return false;
       } else {
@@ -120,7 +120,7 @@ include_once("connectDB.php");
       }
 
       if (f.txtPassword.value == "") {
-        errorPassword.innerHTML = "Password can't be empty, please enter again"
+        errorPassword.innerHTML = "Password can't be empty"
         f.txtPassword.focus();
         return false;
       } else {
