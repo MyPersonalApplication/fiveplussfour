@@ -20,7 +20,7 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebarMenu"><span class="navbar-toggler-icon"></span></button>
 
         <!-- Brand -->
-        <a class="font-family nav-link px-0" href="../../manage/order/index.php">
+        <a class="font-family nav-link mt-2" href="../../manage/order/index.php">
             <h3 class="fw-bold">Administration</h3>
         </a>
     </nav>
@@ -41,3 +41,10 @@
         </div>
     </nav>
 </div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.dropdown-toggle').dropdown();
+    });
+</script>

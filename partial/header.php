@@ -43,6 +43,15 @@
                         <li>
                             <a class="dropdown-item" href="purchase-history.php">Purchase History</a>
                         </li>
+                        <?php
+                        if ($_COOKIE['admin']) {
+                        ?>
+                            <li>
+                                <a class="dropdown-item" href="manage/order/index.php">Administration</a>
+                            </li>
+                        <?php
+                        }
+                        ?>
                         <div class="dropdown-divider"></div>
                         <li>
                             <a class="dropdown-item" href="logout.php" onclick="return confirm('Are you sure to logout?')">Log out</a>

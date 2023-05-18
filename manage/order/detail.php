@@ -25,7 +25,7 @@ include_once("../../connectDB.php");
 
             <div class="col-lg-10 col-md-9 col-12">
                 <form name="frm" method="post" action="" class="mt-3 mx-md-2">
-                    <h1 class="text-center mb-4">Order Management</h1>
+                    <h1 class="text-center mb-4">Order Detail</h1>
                     <table id="tablecategory" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr class="text-center">

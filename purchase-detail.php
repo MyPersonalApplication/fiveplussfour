@@ -8,7 +8,7 @@ include_once("connectDB.php");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FPF - Purchase History</title>
+    <title>FPF - Purchase Detail</title>
 
     <?php
     include_once("partial/library.php");
@@ -22,7 +22,7 @@ include_once("connectDB.php");
         include_once("partial/header.php");
         ?>
         <form name="frm" method="post" action="" class="mt-3 mx-md-2">
-            <h1 class="text-center mb-4">Order Management</h1>
+            <h1 class="text-center mb-4">Purchase Detail</h1>
             <table id="tablecategory" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr class="text-center">
@@ -51,7 +51,7 @@ include_once("connectDB.php");
                                 <td class="text-center"><?= $No ?></td>
                                 <td class="text-center"><?= $row["ProName"]; ?></td>
                                 <td class="text-center">
-                                    <img src='Product/<?= $row["Pro_image"] ?>' border='0' width="150" />
+                                    <img src='Product/<?= $row["Pro_image"] ?>' border='0' width="50" />
                                 </td>
                                 <td class="text-center"><?= $row["Qty"]; ?></td>
                                 <td class="text-center fw-bold">$<?= $row["Qty"] * $row['ProPrice']; ?></td>
@@ -67,7 +67,7 @@ include_once("connectDB.php");
                 </tbody>
             </table>
             <div class="text-center">
-                <a href="purchase-history.php" class="btn btn-primary">Back to order</a>
+                <a href="purchase-history.php" class="btn btn-primary">Back to purchase history</a>
             </div>
         </form>
         <?php
